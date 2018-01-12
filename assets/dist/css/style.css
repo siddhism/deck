@@ -21,6 +21,10 @@
   display:none;
 }
 
+#reset {
+  display: none;
+}
+
 
 #src_copy, #src_move  {
   color: blue;

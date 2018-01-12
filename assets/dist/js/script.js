@@ -5,9 +5,21 @@ var deck = [];
 
 $(init);
 
+$(function() {
+   if (localStorage["gameState"] != null) {
+      var contentsOfOldDiv = JSON.parse(localStorage["gameState"]);    
+      $("#gameState").html(contentsOfOldDiv);
+    }
+    if (localStorage["cardsLeft"] != null) {
+      var contentsOfOldDiv = JSON.parse(localStorage["cardsLeft"]);    
+      $(".cards").html(contentsOfOldDiv);
+    }
+});
+
+
 function init() {
   makeDeck();
-  
+  // shuffleArray(deck);
   $("#drawbtn").click( function() {
     
     var myCard = drawCard();
@@ -20,6 +32,15 @@ function init() {
     
   });
   
+}
+
+function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
 }
 
 function makeDeck() {
@@ -97,6 +118,7 @@ function drop(ev) {
     console.log('suit '+ suit);
     if (ev.target.id != suit) {
         alert('Not matching color');
+        return;
     }
     else {
         console.log(document.getElementById(data));
@@ -105,6 +127,7 @@ function drop(ev) {
     var current_dropzone = '#' + suit+' .card.'+suit;
     console.log('current dropzone', current_dropzone);
     console.log('current dropzone cards', $(current_dropzone).length);
+
     if($(current_dropzone).length == 0) {
       console.log('first child append it');
       ev.target.appendChild(document.getElementById(data));      
@@ -112,19 +135,14 @@ function drop(ev) {
     else {
       // find order which is greater than current one and insert after it
       var source_element = document.getElementById(data);
-      console.log('source ', source_element);
       var source_order = source_element.dataset.order;
-      console.log('order ', source_order);
-
       var dropped_cards = $(current_dropzone);
-      console.log('dropped cards', dropped_cards);
+
       var insertAtEnd = true;
       var insertAtStart = false;
       for (var i = 0; i < dropped_cards.length; i++) {
         var current_card = dropped_cards[i];
         var current_order = current_card.dataset.order;
-        console.log('current_card ', current_card);
-        console.log('current_order', current_order);
         if(parseInt(source_order) < parseInt(current_order)) {
           insertAtEnd = false;
           $(source_element).insertBefore(current_card);
@@ -139,8 +157,31 @@ function drop(ev) {
         ev.target.appendChild(document.getElementById(data));
       };
     }
+
+    // Store/update progress to local Storage
+    $(function() {
+      localStorage["gameState"] = JSON.stringify($("#gameState").html());
+      localStorage["cardsLeft"] = JSON.stringify($(".cards").html());
+    });
+
+    // show rest button when all cards are placed 
+    var game_finished = true;
+    for (var i = suits.length - 1; i >= 0; i--) {
+      var suit = suits[i];
+      var current_dropzone = '#' + suit+' .card.'+suit;
+      var num_cards = $(current_dropzone).length;
+      if (num_cards < 13) {
+        game_finished = false;
+      }
+    }
+    if (game_finished) {
+      alert('Game won');
+      $('#reset').show();
+    }
 }
 
 $('#reset').on('click', function (data) {
-    location.reload();
+  localStorage.removeItem('gameState');
+  localStorage.removeItem('cardsLeft');
+  location.reload();
 });
