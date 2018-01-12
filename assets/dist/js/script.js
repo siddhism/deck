@@ -73,6 +73,7 @@ function makeCard( suit, rank, order ) {
   card.addClass(suit);
   card.attr("data-suit", suit);
   card.attr("data-order", order);
+  card.attr("order", order);
   $(".cards").append(card);
 }
 
@@ -95,18 +96,49 @@ function drop(ev) {
     console.log('drag start');
     console.log('suit '+ suit);
     if (ev.target.id != suit) {
-        alert('not matching color');
+        alert('Not matching color');
     }
     else {
         console.log(document.getElementById(data));
-        ev.target.appendChild(document.getElementById(data));        
+        // ev.target.appendChild(document.getElementById(data));        
     }
-    // var current_dropzone = '#' + suit+'.card.'+suit;
-    // console.log(current_dropzone);
-    // var dropped_cards = $(current_dropzone);
-    // dropped_cards.sort(function (a, b) {
-    //   return a.dataset.order - b.dataset.order;
-    // });
+    var current_dropzone = '#' + suit+' .card.'+suit;
+    console.log('current dropzone', current_dropzone);
+    console.log('current dropzone cards', $(current_dropzone).length);
+    if($(current_dropzone).length == 0) {
+      console.log('first child append it');
+      ev.target.appendChild(document.getElementById(data));      
+    }
+    else {
+      // find order which is greater than current one and insert after it
+      var source_element = document.getElementById(data);
+      console.log('source ', source_element);
+      var source_order = source_element.dataset.order;
+      console.log('order ', source_order);
+
+      var dropped_cards = $(current_dropzone);
+      console.log('dropped cards', dropped_cards);
+      var insertAtEnd = true;
+      var insertAtStart = false;
+      for (var i = 0; i < dropped_cards.length; i++) {
+        var current_card = dropped_cards[i];
+        var current_order = current_card.dataset.order;
+        console.log('current_card ', current_card);
+        console.log('current_order', current_order);
+        if(parseInt(source_order) < parseInt(current_order)) {
+          insertAtEnd = false;
+          $(source_element).insertBefore(current_card);
+          break;
+        }
+        if (parseInt(source_order) > parseInt(current_order)) {
+          continue;
+        }
+      }
+      // If nothing inserted
+      if (insertAtEnd) {
+        ev.target.appendChild(document.getElementById(data));
+      };
+    }
 }
 
 $('#reset').on('click', function (data) {
