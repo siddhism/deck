@@ -41,7 +41,25 @@
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
-            
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    {% if request.user.is_authenticated %}
+                        <li>
+                            <a href="#">{{ request.user.username }}</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'account_logout' %}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{% url 'account_signup' %}">Signup</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'account_login' %}">Login</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container-fluid -->
@@ -71,12 +89,15 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="{% static "bootstrap/dist/js/bootstrap.min.js" %}"></script>
+    <script type="text/javascript">
+    {% if request.user.is_authenticated %}
+        $.username = '{{ request.user.username }}';
+    {% endif %}
+    </script>
+
     <script src="{% static "dist/js/script.js" %}"></script>
 
     <!-- Theme JavaScript -->
-    <script type="text/javascript">
-
-    </script>
 
     {% block scripts %}
         

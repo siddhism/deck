@@ -1,17 +1,19 @@
 var suits = [ "hearts", "diams", "clubs", "spades" ];
 var ranks = [ 2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A" ];
+var gameStateKey = $.username + "gameState";
+var cardLeftKey = $.username + "cardLeft";
 
 var deck = [];
 
 $(init);
 
 $(function() {
-   if (localStorage["gameState"] != null) {
-      var contentsOfOldDiv = JSON.parse(localStorage["gameState"]);    
+   if (localStorage[gameStateKey] != null) {
+      var contentsOfOldDiv = JSON.parse(localStorage[gameStateKey]);    
       $("#gameState").html(contentsOfOldDiv);
     }
-    if (localStorage["cardsLeft"] != null) {
-      var contentsOfOldDiv = JSON.parse(localStorage["cardsLeft"]);    
+    if (localStorage[cardLeftKey] != null) {
+      var contentsOfOldDiv = JSON.parse(localStorage[cardLeftKey]);    
       $(".cards").html(contentsOfOldDiv);
     }
 });
@@ -160,8 +162,8 @@ function drop(ev) {
 
     // Store/update progress to local Storage
     $(function() {
-      localStorage["gameState"] = JSON.stringify($("#gameState").html());
-      localStorage["cardsLeft"] = JSON.stringify($(".cards").html());
+      localStorage[gameStateKey] = JSON.stringify($("#gameState").html());
+      localStorage[cardLeftKey] = JSON.stringify($(".cards").html());
     });
 
     // show rest button when all cards are placed 
@@ -181,7 +183,7 @@ function drop(ev) {
 }
 
 $('#reset').on('click', function (data) {
-  localStorage.removeItem('gameState');
-  localStorage.removeItem('cardsLeft');
+  localStorage.removeItem(gameStateKey);
+  localStorage.removeItem(cardLeftKey);
   location.reload();
 });
