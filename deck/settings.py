@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    
+    'cards',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -55,7 +58,7 @@ ROOT_URLCONF = 'deck.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -119,3 +122,26 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'bower_components'),
+    os.path.join(BASE_DIR, 'assets'),
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+MEDIA_ROOT = 'media/'
+MEDIA_URL = os.path.join(BASE_DIR, '/media/')
+
+# AUTHENTICATION_BACKENDS = (
+#     # Needed to login by username in Django admin, regardless of `allauth`
+#     'django.contrib.auth.backends.ModelBackend',
+
+#     # `allauth` specific authentication methods, such as login by e-mail
+#     'allauth.account.auth_backends.AuthenticationBackend',
+# )
+
+# SITE_ID = 1
+# LOGIN_REDIRECT_URL = '/'
+# # ACCOUNT_AUTHENTICATION_METHOD = True
+# ACCOUNT_EMAIL_REQUIRED = True
+# # default = optional, email is sent. but user is not blocked to user site without verifying
+# ACCOUNT_EMAIL_VERIFICATION = "none"

@@ -1,0 +1,43 @@
+.card {
+  display:inline-block;
+  text-align:center;
+  margin:5px;
+  padding:18px 15px 0 15px;
+  width:76px;
+  height:60px;
+  
+  font-size:22px;
+  background-color:#999999;
+  border: solid 1px black;
+}
+
+.red {
+  background-color:#E55451;
+  border: solid 1px #8C001A;
+  color:#8C001A;
+}
+
+.template {
+  display:none;
+}
+
+
+#src_copy, #src_move  {
+  color: blue;
+  border: 5px solid black;
+  width: 300px;
+  height: 50;
+}
+.dest_move {
+  display:inline-block;
+  padding:2px;
+  margin: 2px;
+  border: 2px solid blue;
+  width: 284px;
+  height: 385px;
+  float: left;
+}
+
+span.drop-label {
+  display: block;
+}

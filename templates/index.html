@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+{% load card_utils %}
+{% block content %}
+    <button id="reset">Reset</button>
+    <div class="card template" draggable="true" ondragstart="drag(event);" id="dummy">
+      <span class="rank">10</span>
+      <span class="suit">Hearts</span>
+    </div>
+    <div class="cards">
+    </div>
+    <div class="row">
+        <div id="hearts" class="row dest_move" ondrop="drop(event)" ondragover="allowDrop(event)"><span class="drop-label">hearts</span></div>
+        <div id="diams" class="row dest_move" ondrop="drop(event)" ondragover="allowDrop(event)"><span class="drop-label">diams</span></div>
+        <div id="clubs" class="row dest_move" ondrop="drop(event)" ondragover="allowDrop(event)"><span class="drop-label">clubs</span></div>
+        <div id="spades" class="row dest_move" ondrop="drop(event)" ondragover="allowDrop(event)"><span class="drop-label">spades</span></div>        
+    </div>
+{% endblock content %}
